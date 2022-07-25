@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Historique
+{% endblock %}
+
+{% block content %}
+    <div class="flex-1 ml-60 ">
+        <div class="row pt-3">
+            <div class="col-md-8 card bg-white text-green-500 mx-auto rounded-xl shadow-xl">
+                <h1 class="text-center">Historique</h1>
+            </div>
+        </div>
+        <section class="content pb-5">
+            <div class="container-fluid">
+                <div class="row mx-auto pt-3">
+                    <div class="card col-lg-6 mx-auto rounded-lg p-3 m-3">
+                        <form method='GET' action="/all/">
+                            <div class="row mx-auto">
+                                <div class="form-group col-lg-6">
+                                    <label for="start">Début : </label>
+                                    <input class="rounded-lg shadow-md" type="date" name="start" id="start" value="{{ start }}" required>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="end">Fin</label>
+                                    <input class="rounded-lg shadow-md" type="date" name="end" id="end" value="{{ end }}" required>
+                                </div>
+                            </div>
+                            <select class="form-select col-12 rounded-lg shadow my-3" aria-label="Default select example" name="source-dropdown" id="source-dropdown">
+                                <option value='all' name="source-dropdown" id="source-dropdown">Type de sources</option>
+                                {% for s in sources %}
+                                    <option value="{{ s.all_source }}">{{ s.all_source }}</option>
+                                {% endfor %}
+                            </select>
+                            <select class="form-select col-12 rounded-lg shadow my-3" aria-label="Default select example" name="event-dropdown" id="event-dropdown">
+                                <option value='all' name="event-dropdown" id="event-dropdown">Type de leads</option>
+                                {% for e in events %}
+                                    <option value="{{ e.event_name }}">
+                                        {% if e.event_name == 'page_view'%}
+                                            Page View
+                                        {% elif e.event_name == 'onboarding_lead_cs' %}
+                                            Devis Borne
+                                        {% else %}
+                                            Devis Véhicule
+                                        {% endif %}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            <div class="mx-auto">
+                                <button type="submit" class="btn btn-outline-success" >Rechercher</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row mx-auto pt-3">
+                    <div class="card mx-auto col-lg-11 rounded-lg shadow">
+                        <div class="col-lg-12 mx-auto text-center">
+                            <h3 class="pt-2">Historique des visites par Client ID (total: {{ total_client }})</h3>
+                            <div class="step-links mx-auto flex flex-items my-3">
+                                {% if all_list.has_next %}
+                                <a class="infinite-more-link" href="?page={{ all_list.next_page_number }}"></a>
+                                {% endif %}
+                            </div>
+                            <div class="table-responsive mx-auto text-center">
+                                <table class="table m-0">
+                                    <thead>
+                                        <tr class="text-success">
+                                            <th>ID Client</th>
+                                            <th>Date</th>
+                                            <th>Début de la session:</th>
+                                            <th>Fin de la session:</th>
+                                            <th>Durée de la session (seconde)</th>
+                                            <th>Source</th>
+                                            <th>Event</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="infinite-container ">
+                                        {% for h in all_list %}
+                                        <tr class="infinite-item">
+                                            <td>{{ h.client_id }}</td>
+                                            <td>{{ h.date }}</td>
+                                            <td>{{ h.mini | time }}</td>
+                                            <td>{{ h.maxi | time }}</td>
+                                            <td>{{ h.total_time | floatformat:-1 }}</td>
+                                            {% comment %} <td>{{ h.all_source }}</td> {% endcomment %}
+                                            <td>
+                                                {% if h.all_source %}
+                                                    {{ h.all_source }}
+                                                {% else %}
+                                                    Pas de source
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if h.event_name == 'page_view' %}
+                                                    Page vue
+                                                {% elif h.event_name == 'onboarding_lead_ev' %}
+                                                    Lead EV
+                                                {% elif h.event_name == 'onboarding_lead_cs' %}
+                                                    Lead CS
+                                                {% else %}
+                                                    Pas d'event
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <a href="{% url 'client' h.client_id %}" class="btn btn-outline-success">Voir</a>
+                                            <td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div> 
+                            <div class="flex items-center space-x-1">
+                                <div class="step-links mx-auto flex flex-items my-3">
+                                    {% if page_obj.has_next %}
+                                    <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
+                                    {% endif %}
+                                    <div class="d-flex justify-content-center" style="display:none;">
+                                        <div class="spinner-border" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+        </section>
+    </div>
+    <script src="{% static 'js/jquery.waypoints.min.js'%}"></script>
+    <script src="{% static 'js/infinite.min.js'%}"></script>
+    <script>
+    var infinite = new Waypoint.Infinite({
+        element: $('.infinite-container')[0],
+        handler: function(direction) {
+
+        },
+        offset: 'bottom-in-view',
+
+        onBeforePageLoad: function () {
+        $('.spinner-border').show();
+        },
+        onAfterPageLoad: function () {
+        $('.spinner-border').hide();
+        }
+
+        });
+    </script>
+    <script>
+        var urlParams = new URLSearchParams(window.location.search);
+        let queryString = urlParams.get('source-dropdown');
+        document.getElementById("source-dropdown").querySelector("option[value='" + queryString + "']").selected = true;
+    </script>
+    <script>
+        var urlParams = new URLSearchParams(window.location.search);
+        let querySelector = urlParams.get('event-dropdown');
+        document.getElementById("event-dropdown").querySelector("option[value='" + querySelector + "']").selected = true;
+    </script>
+    <script>
+        var urlParams = new URLSearchParams(window.location.search);
+        let startSelector = urlParams.get('start');
+        let endSelector = urlParams.get('end');
+        var date = new Date();
+        var yesterday = new Date(date.getTime() - (48 * 60 * 60 * 1000));
+        today = date.toISOString().split('T')[0];
+        yesterday = yesterday.toISOString().split('T')[0];
+        console.log(yesterday, today);
+        if (startSelector) {
+            document.getElementById("start").value = startSelector;
+        } else {
+            document.getElementById("start").value = yesterday;
+        }
+        if (endSelector) {
+            document.getElementById("end").value = endSelector;
+        } else {
+            document.getElementById("end").value = today;
+        }
+    </script>
+
+{% endblock %}

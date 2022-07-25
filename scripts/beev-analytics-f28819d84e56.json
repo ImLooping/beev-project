@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "beev-analytics",
+  "private_key_id": "f28819d84e5656856743213bb68900545d129f9f",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQC8PHCvPml/Pxbl\nQkzWRpBi9YU6rV1JhOd3QQq3pErGlhdpKcJf5yJBL8/Bw3hE07DkMpTfrry16sXn\nASpBIXk8j8d7sex+d6D88MEMgsy4PnR5aRALWxU9BXVaiiIiPxSCY7m/jctEwuKb\nr4OzjJCnCdPzTCJwd0ksoSYoH1moF32ATuaXDhlhq6yQXs4zJE4hk9sVMdmMJUfb\nj4F3eeTsPM9iofCLtxp3RztTmVmOlf1D/2IU5L8/Q3h26BXwleXM6gtkYeUjZ8Dl\nCOZg3HEzouJVz9jESx7haCe/SCTC4gFHGZoj0Lws/7z2Prg7dIq8Bjo3ZJOzxLBC\nsxqGsWf3AgMBAAECggEAHrk7Z+cRyhKj69838mDJxVUvSJCuYXG/Y/AU+JITdble\nxdaVOBkI4XHqgO+k1uW51sKeGP+zeSUs5b5YxWZaHEqYHouVFF6gmK26cg58AqCI\nW0liNIWf1aS+madigzYfj1leooeEGMuPDXvcImIRjtS5qFmSD3Wbgcd7FmETkwNG\nCihs+fNeoqnxY+nrE5OQShmQur0Lclh2nlpp9xJy/bcGGqMGYdZtbXvSjsShIudH\nqMiaD00sURgRy4iJgZw8st58cyTX5p45gwQcXxv1xYO6+vitbIYDxpQOp1lDoyWa\ncTGRJuFUwcvsDibkjygPNyg7NVK+qhufiARr3rdqRQKBgQD/OuVEzdbTezt+wYw9\njnnr3IBG8b7Nu/YFpc4e9NhRApTzmal/sW2rwXwts59o6M34zvgPg0Jv7YOPz0dm\ncpaFWPEoXQMjlzU8Pli3BF3o8ggmv2GJl1aMWLbEpHVLVBinj6WyFRlA0quoArzY\nrvWAbGZnWG/98/yTDgHWz5QG4wKBgQC8zc7GU1xk3SBsVqerqbZA5ni1cOVSkFLI\ndGjQzoK4M7/yXotbXFsGO1NVtftKXnobtbku64a1hRdXF40Zlq2MfGZisEoU2VcU\nZA3BTJ6EQ6BsvumhirYwjICNOlguPC0Gw5st2nX+6ej69HdCGNAEsZevmvgD+x51\nY5nVXz6S3QKBgQC5DV2/9jKFYTsw22owE4ZosZY8WfjKuDZXv/Dj1wikK+gNe2M+\n10k6F+5OQIcbDHiSppWKwdPAzYfvFA2jxP9HrcYkStQE0RRjGp0+DSd9x0aLuYUh\nup2g4o2Zo9f7hvzdOLSdmtiVfGnDRkDgJnKP64iP87o3ediuUqCYvCaKmwKBgQC3\nwPaGP4uk/zIXPx9hC4O+FpFUxdPrT1vCjMmWr+a5sGQYV7v55yEQJ50rxjoUX28o\nmOzqpYAuGqJkuR8y0FuIZ2qekkUHlaAS0G4yu4dr4wW30PdBqec3yQc0bJx2I0sP\nUkEtl3lP6AhAdr27LrsGVnHzDzhjZ3x1c8K80D3uYQKBgQCDnTsZiZDTk4jpHJ+S\nCqzlB8RrBOLxQcZEVGmgIeFzSwkJBKbbSC7tiAvcVg5m9SzHaBCXCZEBTSxIRhTV\nOdcvw4+s4yGj01F+HHh3SEu66kS6z0iczLCGlB42CHseyPbUUznep6Z70f38nGpb\nSW77yUqjc0ocwELD8/5O5Z1Zbw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "wildschool@beev-analytics.iam.gserviceaccount.com",
+  "client_id": "110887839236344644249",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/wildschool%40beev-analytics.iam.gserviceaccount.com"
+}

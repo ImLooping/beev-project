@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    DashBoard
+{% endblock %}
+
+{% block content %}
+    {% include "partials/sidebar.html" %}
+    <div class="flex-1 ml-64">
+        <div class="row pt-3">
+            <div class="col-md-8 card bg-white text-green-600 mx-auto rounded-xl shadow-xl">
+                <h1 class="text-center">Historique</h1>
+            </div>
+        </div>
+        <section class="content pb-5">
+            <div class="container-fluid">
+                <div class="row mx-auto pt-3">
+                    <div class="card col-lg-6 mx-auto rounded-lg p-3 m-3">
+                        <form method='POST' action="/resume/">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+                                    <label for="start_date">Début</label>
+                                    <input class="rounded-lg shadow-md" type="date" name="start_date" id="start_date" value="{{ start_date|date:'Y-m-d' }}">
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="end_date">Fin</label>
+                                    <input class="rounded-lg shadow-md" type="date" name="end_date" id="end_date" value="{{ end_date|date:'Y-m-d' }}">
+                                </div>
+                            </div>
+                            <select class="form-select col-12 rounded-lg my-3" aria-label="Default select example" name="source-dropdown">
+                                <option value='all' name="source" id="source">Toutes les sources</option>
+                                {% for s in sources %}
+                                    <option value="{{ s }}" name="source" id="source">{{ s }}</option>
+                                {% endfor %}
+                            </select>
+                            <select class="form-select col-12 rounded-lg my-3" aria-label="Default select example">
+                                <option selected>Type de leads</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                            <button type="submit" class="btn btn-outline-success" >Rechercher</button>
+                            {{form.errors}}
+                        </form>
+                    </div>
+                </div>
+                <div class="row mx-auto pt-3">
+                    <div class="card mx-auto col-lg-11 rounded-lg shadow">
+                        <div class="col-lg-12 mx-auto text-center">
+                            <h3 class="pt-2">Historique des visites par Client ID</h3>
+                            <div class="flex items-center space-x-1">
+                                <div class="step-links mx-auto flex flex-items my-3">
+                                    {% if page_obj.has_previous %}
+                                        <a class='px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-blue-400 hover:text-white mx-1' href="?page=1">&laquo; first</a>
+                                        <a class='px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-blue-400 hover:text-white mx-1' href="?page={{ page_obj.previous_page_number }}">previous</a>
+                                    {% endif %}
+                            
+                                    <div class='current px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-blue-400 hover:text-white mx-1'>
+                                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                    </div>
+                            
+                                    {% if page_obj.has_next %}
+                                        <a class='infinite-more-link px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-blue-400 hover:text-white mx-1' href="?page={{ page_obj.next_page_number }}">next</a>
+                                        {% comment %} <a class='px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-blue-400 hover:text-white mx-1' href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a> {% endcomment %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="table-responsive mx-auto text-center">
+                                <table class="table m-0">
+                                    <thead>
+                                        <tr class="text-success">
+                                            <th>ID Client</th>
+                                            <th>Date</th>
+                                            <th>De:</th>
+                                            <th>A:</th>
+                                            <th>URL</th>
+                                            <th>Session (seconde)</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="infinite-container">
+                                        {% for h in all_list %}
+                                        <tr class="infinite-item">
+                                            <td>{{ h.client_id }}</td>
+                                            <td>{{ h.date }}</td>
+                                            <td>{{ h.min }}</td>
+                                            <td>{{ h.max }}</td>
+                                            <td>
+                                                <a href="{{ h.url }}" target="_blank">{{ h.url | slice:":50" }}...</a>
+                                            </td>
+                                            <td>{{ h.total_time }}</td>
+                                            <td>
+                                                <form action="/client/" method="PST">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="client_id" value="{{ h.client_id }}">
+                                                    <button type="submit" class="btn btn-outline-success">Voir</button>
+                                                    {{form.errors}}
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+        </section>
+    </div>
+
+{% endblock %}

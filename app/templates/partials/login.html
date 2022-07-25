@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Login
+{% endblock %}
+
+{% block content %}
+<div class="w-full h-full flex flex-items-center">
+    <p>You are not logged in</p>
+    <a href="{% url 'login' %}">Log In</a>
+</div>
+{% endblock  %}

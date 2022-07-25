@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    DashBoard
+{% endblock %}
+
+{% block content %}
+    <div class="flex-1 ml-64">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        <div class="row pt-3">
+            <div class="col-md-8 card bg-white text-green-600 mx-auto rounded-xl shadow-xl">
+                <h1 class="text-center">DashBoard</h1>
+            </div>
+        </div>
+        <div class="card col-lg-3 mx-auto rounded-lg p-3 m-3">
+            <form method='GET' action="/dashboard/">
+                <select class="form-select col-12 rounded-lg shadow my-3" aria-label="Default select example" name="date-dropdown" id="date-dropdown">
+                    <option value='all' name="date-dropdown" id="date-dropdown">Select date</option>
+                    <option value='yesterday' name="date-dropdown" id="date-dropdown">Yesterday</option>
+                    <option value='week' name="date-dropdown" id="date-dropdown">Last week</option>
+                    <option value='month' name="date-dropdown" id="date-dropdown">Last month</option>
+                </select>
+                <div class="mx-auto">
+                    <button type="submit" class="btn btn-outline-success" >Rechercher</button>
+                </div>
+            </form>
+        </div>
+        <div class="row mt-5">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-3">
+                {% autoescape off %}
+                    {{ graph_ev }}
+                {% endautoescape %}
+            </div>
+            <div class="col-lg-3">
+                {% autoescape off %}
+                    {{ graph_nb_visitor }}
+                {% endautoescape %}
+            </div>
+            <div class="col-lg-3">
+                {% autoescape off %}
+                    {{ graph_cs }}
+                {% endautoescape %}
+            </div>
+            <div class="col-lg-1"></div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-lg-5 mx-5">
+                <h4 class="text-center mx-auto text-light">Marques les plus consultées</h4>
+                <div class="card bg-white rounded shadow-xl">
+                    <img src="/static/img/brands/{{ day_before }}-{{ today }}.png" class="rounded" alt="static/img/brands/{{ day_before }}.png">
+                </div>
+                <div class="pt-5 flex w-full">
+                    {% autoescape off %}
+                    {{ bar_brands }}
+                    {% endautoescape %}
+                </div>
+            </div>
+            <div class="col-lg-5 mx-5">
+                <h4 class="text-center mx-auto text-light">Modèles les plus consultés</h4>
+                <div class="card bg-white rounded shadow-xl">
+                    <img src="/static/img/models/{{ day_before }}-{{ today }}.png" class="rounded" alt="static/img/models/{{ day_before }}.png">
+                </div>
+                <div class="pt-5 flex w-full">
+                    {% autoescape off %}
+                    {{ bar_models }}
+                    {% endautoescape %}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-10 mx-auto pt-5">
+                {% autoescape off %}
+                {{ graph_event }}
+                {% endautoescape %}
+            </div>
+        </div>
+    </div>
+    <script>
+        var urlParams = new URLSearchParams(window.location.search);
+        let querySelector = urlParams.get('date-dropdown');
+        document.getElementById("date-dropdown").querySelector("option[value='" + querySelector + "']").selected = true;
+    </script>
+{% endblock %}

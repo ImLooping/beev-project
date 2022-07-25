@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Client détails
+{% endblock %}
+
+{% block content %}
+    {% include "partials/sidebar.html" %}
+    <div class="flex-1 ml-60">
+        <div class="row pt-3">
+            <div class="col-md-8 card bg-white text-green-500 mx-auto rounded-xl shadow-xl mb-5">
+                <h1 class="text-center">Nombre de page visité ({{ total_page }})</h1>
+            </div>
+        </div>
+        <section class="content pb-5">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12 text-center text-white my-2"><h2>Parcours</h2></div>
+                    {% regroup client by event_name as client_event %}
+                        {% for event_name, client in client_event %}
+                        <div class="col-lg-2 mx-auto">
+                            <div class="card bg-white text-green-500 mx-auto rounded-xl shadow-xl mb-5">
+                                <h3 class="text-center">
+                                    {% if event_name == 'page_view' %}
+                                        Page vue
+                                    {% elif event_name == 'onboarding_lead_ev' %}
+                                        EV 
+                                    {% elif event_name == 'onboarding_lead_cs' %}
+                                        CS
+                                    {% endif %}
+                                </h3>
+                                <h3 class="text-center">{{ client|length }}</h3>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="row">
+                    <div class="mx-auto m-3">
+                        <a class="btn btn-light mx-auto" href="/all">Retour</a>
+                    </div>
+                </div>
+                <div class="row">
+                    {% for c in client %}
+                    <div class="col-lg-9 flex w-full py-4 border-b border-gray-300 mx-auto bg-white mb-1">
+                        <span class="flex-shrink-0 w-10 h-10 bg-green-500 rounded-full"></span>
+                        <div class="flex flex-col flex-grow ml-2">
+                            <div class="text-sm row">
+                                <div class="col-4 font-semibold">{{ c.client_id }}</div>
+                                <div class="col-4 mx-auto text-center">{{ c.event_name | upper }} - {{ c.page_title}}</div>
+                                <div class="col-4 text-right">
+                                    <div>{{ c.date }}<span class="font-semibold"></div>
+                                    <div>{{ c.time_on_page_in_seconds | floatformat:-1 }} seconde{%if c.time_on_page_in_seconds > 1 %}s{% endif %}</div>
+                                </div>
+                            </div>
+                            <hr>
+                            <ul>
+                                <li class="text-center">{{c.brands | upper}} {{ c.modeles | upper}}</li>
+                                <li>
+                                    <a href="{{ c.url }}" target="_blank">{{ c.url | slice:130 }}...</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
